@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Autheticate">
+        <activity android:name=".map"></activity>
+        <activity android:name=".tempe" />
         <activity android:name=".profile" />
         <activity android:name=".MainActivity">
             <intent-filter>

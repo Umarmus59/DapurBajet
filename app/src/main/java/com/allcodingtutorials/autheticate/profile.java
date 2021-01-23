@@ -47,7 +47,6 @@ public class profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         button = findViewById(R.id.dialog_btn);
-        btnLogout=findViewById(R.id.btnLogout);
         saveData();
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -109,10 +108,10 @@ public class profile extends AppCompatActivity {
     private void saveData() {
         Map<String,Object> student;
         student=new HashMap<>();
-        student.put("Recipe Name","French Toast");
-        student.put("Ingredients"," telur, esen vanila, susu segar, roti, mentega");
-        student.put("Steps","1. Gaulkan 1 biji telur, 1 cawan susu, 1 susu gula, secubit garam, sedikit esen vanila, 1 cawan tepung gandum, dan 1 sudu teh baking powder sehingga sebati. Ratakan adunan atas periuk sehingga masak.\n" +
-                "2. Taburkan gula pasir, kacang hancur, sedikit jagung manis tin dan marjerin. Tunggu sehingga gula mencair, kemudian apam balik sedia diangkat dan dihidang.");
-        db.collection("student").document("French Toast").set(student);
+        student.put("Recipe Name","Murtabak Maggi");
+        student.put("Ingredients","sebiji telur, satu bungkus maggi kari");
+        student.put("Steps","1. Rebus maggi kari sehingga lembut. Sementara itu, gaulkan sebiji telur bersama perencah maggi. Kemudian masukkan maggi yang sudah lembut dan gaulkan sekali\n" +
+                "2. Panaskan kuali, kemudian goreng sehingga kedua permukaan menjadi keperangan.");
+        db.collection("student").document("Murtabak Maggi").set(student);
     }
 }
