@@ -31,7 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
-public class profile extends AppCompatActivity {
+public class  profile extends AppCompatActivity {
     FirebaseFirestore db=FirebaseFirestore.getInstance();
     TextView textView;
     CollectionReference col=db.collection("student");
