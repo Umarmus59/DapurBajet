@@ -1,7 +1,9 @@
 package com.allcodingtutorials.autheticate;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -26,8 +28,17 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,22 +51,34 @@ public class map extends AppCompatActivity {
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int GALLERY_REQUEST_CODE = 105;
+    FirebaseFirestore db=FirebaseFirestore.getInstance();
+    TextView textView;
+    CollectionReference col=db.collection("student");
+    DocumentReference doc=db.document("Student/cjj");
     ImageView selectedImage;
     Button cameraBtn,Share;
-    String currentPhotoPath;
-
-
-
-
+    EditText text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        text= findViewById(R.id.EditText);
         selectedImage = findViewById(R.id.displayImageView);
         cameraBtn = findViewById(R.id.cameraBtn);
         Share = findViewById(R.id.Share);
+        AlertDialog.Builder builder = new AlertDialog.Builder(map.this);
+        builder.setCancelable(true);
+        builder.setTitle("Instruction");
+        builder.setMessage("Snap your food, and share it!");
+        builder.setPositiveButton(R.string.got, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+                Toast.makeText(map.this, "Goodluck Chef!", Toast.LENGTH_SHORT).show();
 
+            }
+        });
+        builder.show();
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +113,7 @@ public class map extends AppCompatActivity {
             shareint=new Intent(Intent.ACTION_SEND);
             shareint.setType("Image/*");
             shareint.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
+            shareint.putExtra(Intent.EXTRA_TEXT, text.getText().toString());
             shareint.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 
@@ -137,30 +161,6 @@ public class map extends AppCompatActivity {
 
 
 
-    }
-
-    private String getFileExt(Uri contentUri) {
-        ContentResolver c = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(c.getType(contentUri));
-    }
-
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
     }
 
 

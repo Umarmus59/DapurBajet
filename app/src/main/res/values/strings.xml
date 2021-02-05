@@ -2,6 +2,9 @@
     <string name="app_name">Autheticate</string>
     <string name="clientid">20484531440-baafv5fto1to6env9g738ar7pj6bt41g.apps.googleusercontent.com</string>
     <string name="btnLogout">Log Out</string>
+    <string name="messgae">Enter Your Message Here</string>>
     <string name="done">done</string>
     <string name="share">share</string>
+    <string name="ok">ok</string>
+    <string name="got">Got It</string>
 </resources>

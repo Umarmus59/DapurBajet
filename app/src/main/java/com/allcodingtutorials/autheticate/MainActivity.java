@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,8 +36,8 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db=FirebaseFirestore.getInstance();
     TextView textView;
-    CollectionReference col=db.collection("student");
-    DocumentReference doc=db.document("Student/cjj");
+    CollectionReference col=db.collection("student"), col1=db.collection("student");
+    DocumentReference doc=db.document("Student/cjj"), doc1=db.document("Student/cjj");
     Button button, btnLogout, btnTemp, btnmap;
     FirebaseUser fbuser;
     FirebaseAuth fbauth;
@@ -61,9 +62,10 @@ public class MainActivity extends AppCompatActivity {
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                 StringBuilder sb= new StringBuilder();
                                 for(QueryDocumentSnapshot document:queryDocumentSnapshots){
-                                    sb.append(document.getId()+" :) :\n\n"+"Ingredients:"+document.getString("Ingredients")+"\n\nSteps:\n"+document.getString("Steps")+"\n\n\n\n");
+                                    sb.append(document.getId()+" :) :\n\n"+"Ingredients:\n"+document.getString("Ingredients")+"\n\nSteps:\n"+document.getString("Steps")+"\n\n\n\n");
                                 }
                                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                String item = sb.toString();
                                 builder.setCancelable(true);
                                 builder.setTitle("Recipe");
                                 builder.setMessage(sb.toString());
@@ -71,6 +73,17 @@ public class MainActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int id) {
                                         // User clicked OK button
                                         Toast.makeText(MainActivity.this, "Goodluck Chef!", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                                builder.setNegativeButton("share", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(Intent.ACTION_SEND);
+                                        intent.setType("text/plain");
+                                        intent.putExtra(Intent.EXTRA_TEXT, item);
+                                        startActivity(intent);
+
 
                                     }
                                 });
