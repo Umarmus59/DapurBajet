@@ -58,11 +58,12 @@ public class map extends AppCompatActivity {
     ImageView selectedImage;
     Button cameraBtn,Share;
     EditText text;
+    int trigger;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
+        trigger = 0;
         text= findViewById(R.id.EditText);
         selectedImage = findViewById(R.id.displayImageView);
         cameraBtn = findViewById(R.id.cameraBtn);
@@ -70,7 +71,7 @@ public class map extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(map.this);
         builder.setCancelable(true);
         builder.setTitle("Instruction");
-        builder.setMessage("Snap your food, and share it!");
+        builder.setMessage("Snap your food and share it!");
         builder.setPositiveButton(R.string.got, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button
@@ -90,7 +91,20 @@ public class map extends AppCompatActivity {
         Share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                image();
+                if(trigger < 1){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(map.this);
+                    builder.setCancelable(true);
+                    builder.setTitle("Sorry!");
+                    builder.setMessage("Snap Your Pic First!");
+                    builder.setPositiveButton(R.string.snap, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            askCameraPermissions();
+                        }
+                    });
+                    builder.show();
+                }else {
+                    image();                }
 
             }
         });
@@ -139,8 +153,11 @@ public class map extends AppCompatActivity {
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 openCamera();
             }else {
-                Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
-            }
+                AlertDialog.Builder builder = new AlertDialog.Builder(map.this);
+                builder.setCancelable(true);
+                builder.setTitle("Sorry!");
+                builder.setMessage("You Don't Have Permission To Use The Camera!");
+                builder.show();            }
         }
     }
 
@@ -155,7 +172,7 @@ public class map extends AppCompatActivity {
         if (requestCode == CAMERA_REQUEST_CODE) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
             selectedImage.setImageBitmap(image);
-
+            trigger=+1;
         }
 
 
