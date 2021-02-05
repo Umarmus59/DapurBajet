@@ -94,8 +94,8 @@ public class map extends AppCompatActivity {
                 if(trigger < 1){
                     AlertDialog.Builder builder = new AlertDialog.Builder(map.this);
                     builder.setCancelable(true);
-                    builder.setTitle("Sorry!");
-                    builder.setMessage("Snap Your Pic First!");
+                    builder.setTitle("Sorry :(");
+                    builder.setMessage("You did not snap any pic");
                     builder.setPositiveButton(R.string.snap, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -155,8 +155,8 @@ public class map extends AppCompatActivity {
             }else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(map.this);
                 builder.setCancelable(true);
-                builder.setTitle("Sorry!");
-                builder.setMessage("You Don't Have Permission To Use The Camera!");
+                builder.setTitle("Sorry :(");
+                builder.setMessage("We need permission to use the Camera");
                 builder.show();            }
         }
     }
